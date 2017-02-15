@@ -25,9 +25,9 @@ var apiRoutes = express.Router();
 
 // 定义商家数据接口,取数据
 apiRoutes.get('/seller',function(req,res){
-  //收到请求后，吐给客户端一个json数据
+  // 收到请求后，吐给客户端一个json数据
   res.json({
-    //数据请求正常，返回一个标志
+    // 数据请求正常，返回一个标志
     errno: 0,
     data: seller
   });
@@ -47,11 +47,11 @@ apiRoutes.get('/ratings',function(req,res){
   });
 });
 
-//所有接口相关的路由都会通过api这个路由
+// 所有接口相关的路由都会通过api这个路由
 
 app.use('/api',apiRoutes);
 
-//请求方式api/goods
+// 请求方式api/goods
 
 
 var compiler = webpack(webpackConfig)
