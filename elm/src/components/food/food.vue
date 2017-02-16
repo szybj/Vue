@@ -166,7 +166,7 @@
         width:100%
         background:#fff
         &.move-transition
-            transition:all 0.2s linear
+            transition:all 0.4s
             transform:translate3d(0,0,0)
         &.move-enter, &.move-leave
             transform:translate3d(100%,0,0)
