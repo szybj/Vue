@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>仿select</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="js/lib/vue.min.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <h2>自定义下拉框1</h2>
+        <custom-select style='float:left' btn='查询' :list='address'></custom-select>
+        <h2>自定义下拉框2</h2>
+        <custom-select style='float:left' btn='搜索' :list='time'></custom-select>
+    </div>
+
+ <!--     子组件传值给父组件：
+        在子组件调用的标签上自定义事件，父组件接收事件处理函数。
+        子组件通过事件和$emit方法通知父组件。 -->
+    <script type="text/javascript">
+    //父组件
+    Vue.component('custom-select', {
+            data: function() {
+                return {
+                	selectVal:'',
+                    selectShow: false
+                }
+            },
+            props: ['btn', 'list'],
+            /*directives:{
+            	'blur':{
+            		update(el.binding){
+            			el.blur();
+            		}
+            	}
+            }*/
+            template: `<section class="warp">
+		<div class="searchIpt clearFix">
+			<div class="clearFix">
+				<input type="text" class="keyWord" :value="selectVal" @click='selectShow = true' @blur='blurFn'/>
+				<input type="button" :value="btn">
+				<span></span>
+			</div>
+			<custom-list
+				v-show='selectShow'
+				:listData='list'
+				@receive='changeValueHandle'
+			></custom-list>
+		</div>
+	</section>`,
+            methods: {
+                changeValueHandle(value) {
+                	this.selectVal = value;
+
+                },
+                blurFn(){
+                	var _this = this;
+                	setTimeout(function(){
+                		_this.selectShow = false;
+                	},200)
+                }
+            }
+        })
+        //子组件
+    Vue.component('custom-list', {
+        props: ['listData'],
+        methods: {
+            setValue(value) {
+                this.$emit('receive',value);
+            }
+        },
+        template: `<ul class="list">
+				<li v-for='item in listData' @click='setValue(item)'>{{item}}</li>
+			</ul>`
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            address: ['北京', '上海', '广州'],
+            time: ['2017-01-01', '2017-02-01', '2017-03-01']
+        }
+    })
+    </script>
+</body>
+
+</html>

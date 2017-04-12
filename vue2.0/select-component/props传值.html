@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>仿select</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="../js/lib/vue.min.js"></script>
+</head>
+<body>
+	<div id='app'>
+		<h2>自定义下拉框1</h2>
+		<custom-select style='float:left' btn='查询'></custom-select>
+		<h2>自定义下拉框2</h2>
+		<custom-select style='float:left' btn='搜索'></custom-select>
+	</div>
+
+	<script type="text/javascript">
+	Vue.component('custom-select',{
+
+		props:['btn'],
+		template: `<section class="warp">
+		<div class="searchIpt clearFix">
+			<div class="clearFix">
+				<input type="text" class="keyWord" value="" />
+				<input type="button" :value="btn">
+				<span></span>
+			</div>
+			<ul class="list">
+				<li>html+css</li>
+				<li>html5+css3</li>
+				<li>javascript</li>
+				<li>angular</li>
+				<li>react</li>
+				<li>vue</li>
+				<li>jquery</li>
+				<li>nodejs</li>
+			</ul>
+		</div>
+	</section>`
+	})
+		new Vue({
+			el: '#app'
+
+		})
+	</script>
+	<script src="../js/app.js"></script>
+</body>
+</html>

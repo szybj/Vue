@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slot分发</title>
+    <script src="js/lib/vue.js"></script>
+</head>
+<body>
+    <div id='demo'>
+
+        <custom-component>
+           <!--  组件标签内如果有html结构，就显示组件标签内的结构，没有的话就显示组件默认的结构 -->
+
+
+       <!--     父组件模板的内容在父组件作用域内编译
+       子组件模板的内容在子组件作用域内编译 -->
+            {{message}}
+          <p slot='b'>替换第二段</p>
+          <template slot='a'>
+              <p>替换第一段</p>
+              <p>替换第一段</p>
+              <p>替换第一段</p>
+              <p>替换第一段</p>
+          </template>
+
+          <p slot='c'>替换第三段</p>
+
+        </custom-component>
+    </div>
+    <script type="text/javascript">
+        Vue.component('custom-component',{
+            data(){
+                return {
+                    message: '我是子组件的数据'
+                }
+            },
+            template:`
+            <div>
+               {{message}}
+               <slot name='a'><p>第一段</p></slot>
+               <slot name='b'><p>第二段</p></slot>
+               <slot name='c'><p>第三段</p></slot>
+               <slot></slot>/*为了渲染父组件的message数据*/
+            </div>
+            `
+        })
+        new Vue({
+            el: '#demo',
+            data:{
+                message: '我是父组件的数据'
+            }
+        })
+    </script>
+
+</body>
+</html>

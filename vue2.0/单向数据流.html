@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/lib/vue.js"></script>
+</head>
+<body>
+    <div id='demo'>
+
+    <coustom-component :count='count'></coustom-component>
+    </div>
+    <script type="text/javascript">
+    //子组件不能直接修改父组件传过来的值
+    /*
+    两种方法
+        一：在子组件中把接收的参数在data(){}中赋值给一个取代的变量，然后通过计算属性返回这个结果。
+        子组件显示值得的地方写计算属性的名称{{a}}
+            data(){
+                return {
+                    componentCount: this.count
+                }
+            }
+            computed:{
+                a(){
+                    return this.componentCount
+                }
+            }
+        二：不用通过计算属性，子组件显示值得的地方直接写data中的key值{{componentCount}}
+     */
+        Vue.component('coustom-component',{
+            props:['count'],
+            data(){
+                return {
+                    componentCount: this.count
+                }
+            }/*,
+            computed:{
+                a(){
+                    return this.componentCount
+                }
+            }*/,
+            template:`
+                <div>
+                    <p>自定义组件</p>
+                    <input type='button' value='改变count的值' @click='changeCount'>
+                    <p>count={{componentCount}}</p>
+                </div>
+            `,
+            methods:{
+                changeCount(){
+                    this.componentCount++
+                }
+            }
+        })
+        new Vue({
+            el: '#demo',
+            data:{
+                count:0
+            }
+        })
+    </script>
+</body>
+</html>

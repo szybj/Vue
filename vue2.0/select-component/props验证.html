@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>props验证</title>
+    <script src="../js/lib/vue.js"></script>
+</head>
+<body>
+    <div id='demo'>
+    <h2>父组件使用了count</h2>
+    {{count}}
+    <coustom-component :count='count' @increment-click='countHandle' ></coustom-component>
+    </div>
+    <script type="text/javascript">
+    /*
+    单向数据流两种方法：
+        一：在子组件中把count赋值给一个变量，然后通过计算属性返回这个结果。
+        子组件显示值得的地方写计算属性的名称{{a}}
+            data(){
+                return {
+                    componentCount: this.count
+                }
+            }
+        二：不用通过计算属性，子组件显示值得的地方直接写data中的key值{{componentCount}}
+
+        子组件传值给父组件：
+            在子组件调用的标签上自定义事件，父组件接收事件处理函数。
+            子组件通过事件和$emit方法通知父组件。
+
+
+    props验证：
+        props：{
+            count:{
+                type:Number,//数据类型
+                default:10,//在不传参数的情况下，默认值是10
+                required:true//参数必须传
+                validator(value){
+                    return value > 10
+                }
+            }
+        }
+     */
+        Vue.component('coustom-component',{
+            props:{
+                count:{
+                    type:Number,
+                    default:20,
+                    required:true,
+                    validator(value){
+                        return value > 10
+                    }
+                }
+            },
+            data(){
+                return {
+                    componentCount: this.count
+                }
+            },
+            computed:{
+                a(){
+                    return this.componentCount
+                }
+            },
+            template:`
+                <div>
+                    <p>自定义组件</p>
+                    <input type='button' value='改变count的值' @click='changeCount'>
+                    <p>count={{a}}</p>
+                </div>
+            `,
+            methods:{
+                changeCount(){
+                    this.componentCount++;
+                    this.$emit('increment-click')
+                }
+            }
+        })
+        new Vue({
+            el: '#demo',
+            data:{
+                count:0
+            },
+            methods:{
+                countHandle(){
+                    this.count++;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
